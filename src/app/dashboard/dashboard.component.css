@@ -1,0 +1,23 @@
+.dashboard {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .todo-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .todo-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px;
+    width: 200px;
+    box-sizing: border-box;
+  }
+  
+  .completed {
+    color: green;
+  }
+  

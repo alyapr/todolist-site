@@ -1,45 +1,47 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-register',
-//   standalone: true,
-//   imports: [],
-//   templateUrl: './register.component.html',
-//   styleUrl: './register.component.css'
-// })
-// export class RegisterComponent {
-
-// }
+// import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms'; // Tambahkan dependensi ini
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-register',
-  standalone: true, // Menandakan komponen ini adalah standalone
-  // templateUrl: './register.component.html',
+  standalone: true,
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
-  imports: [ReactiveFormsModule, CommonModule], // Masukkan ReactiveFormsModule sebagai import
+  imports: [ReactiveFormsModule, CommonModule],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   registerForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.registerForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+  constructor(private fb: FormBuilder, private http: HttpClient) {
+    // Membuat form grup dengan validasi
+    this.registerForm = new FormGroup({
+      username: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
     });
   }
 
-  onSubmit(): void {
+  onSubmit() {
     if (this.registerForm.valid) {
-      console.log('Form submitted', this.registerForm.value);
-    } else {
-      console.log('Form is not valid');
+      const formData = this.registerForm.value;
+      this.http.post('http://localhost:3000/users/signup', formData).subscribe(
+        (response) => {
+          console.log('User registered successfully:', response);
+        },
+        (error) => {
+          console.error('Error registering user:', error);
+        }
+      );
     }
   }
 }

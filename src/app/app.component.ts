@@ -12,13 +12,13 @@
 //   title = 'todolist-site';
 // }
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router'; // Mengimpor RouterModule
+import { RouterOutlet } from '@angular/router'; // Mengimpor RouterModule
 import { routes } from './app.routes'; // Mengimpor konfigurasi routes
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule], // Menambahkan RouterModule.forRoot(routes)
+  imports: [RouterOutlet], // Menambahkan RouterModule.forRoot(routes)
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'], // Memperbaiki typo 'styleUrl' menjadi 'styleUrls'
 })
