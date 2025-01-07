@@ -13,14 +13,14 @@
           class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           [ngClass]="{
             'border-red-500':
-              registerForm.controls.username.invalid &&
-              registerForm.controls.username.touched
+              registerForm.controls['username'].invalid &&
+              registerForm.controls['username'].touched
           }"
         />
         <div
           *ngIf="
-            registerForm.controls.username.invalid &&
-            registerForm.controls.username.touched
+            registerForm.controls['username'].invalid &&
+            registerForm.controls['username'].touched
           "
           class="text-sm text-red-500"
         >
@@ -39,14 +39,14 @@
           class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           [ngClass]="{
             'border-red-500':
-              registerForm.controls.email.invalid &&
-              registerForm.controls.email.touched
+              registerForm.controls['email'].invalid &&
+              registerForm.controls['email'].touched
           }"
         />
         <div
           *ngIf="
-            registerForm.controls.email.invalid &&
-            registerForm.controls.email.touched
+            registerForm.controls['email'].invalid &&
+            registerForm.controls['email'].touched
           "
           class="text-sm text-red-500"
         >
@@ -65,14 +65,14 @@
           class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           [ngClass]="{
             'border-red-500':
-              registerForm.controls.password.invalid &&
-              registerForm.controls.password.touched
+              registerForm.controls['password'].invalid &&
+              registerForm.controls['password'].touched
           }"
         />
         <div
           *ngIf="
-            registerForm.controls.password.invalid &&
-            registerForm.controls.password.touched
+            registerForm.controls['password'].invalid &&
+            registerForm.controls['password'].touched
           "
           class="text-sm text-red-500"
         >

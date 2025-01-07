@@ -10,6 +10,7 @@
 // export class LoginComponent {
 
 // }
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; // Tambahkan dependensi ini
@@ -19,7 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms'; // Tambahkan dependensi in
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [ReactiveFormsModule], // Import ReactiveFormsModule untuk form
+  imports: [ReactiveFormsModule,CommonModule], // Import ReactiveFormsModule untuk form
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;

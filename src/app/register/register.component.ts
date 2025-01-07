@@ -13,13 +13,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; // Tambahkan dependensi ini
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-register',
   standalone: true, // Menandakan komponen ini adalah standalone
+  // templateUrl: './register.component.html',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
-  imports: [ReactiveFormsModule], // Masukkan ReactiveFormsModule sebagai import
+  imports: [ReactiveFormsModule, CommonModule], // Masukkan ReactiveFormsModule sebagai import
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
