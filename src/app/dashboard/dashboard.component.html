@@ -1,0 +1,11 @@
+<div class="dashboard">
+  <h1>Todos Dashboard</h1>
+  <!-- Todo List -->
+  <div *ngFor="let todo of todos">
+    <h3>{{ todo.title }}</h3>
+    <p>{{ todo.description }}</p>
+    <p>Completed: {{ todo.completed ? "Yes" : "No" }}</p>
+    <p>Due Date: {{ todo.dueDate | date }}</p>
+    <p>Category: {{ todo.category }}</p>
+  </div>
+</div>
