@@ -1,0 +1,49 @@
+<!-- src/app/todo-form/todo-form.component.html -->
+<form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="title">Title</label>
+    <input id="title" formControlName="title" required />
+    <div
+      *ngIf="todoForm.get('title')?.invalid && todoForm.get('title')?.touched"
+    >
+      Title is required.
+    </div>
+  </div>
+
+  <div>
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description"></textarea>
+  </div>
+
+  <div>
+    <label for="completed">Completed</label>
+    <input type="checkbox" formControlName="completed" />
+  </div>
+
+  <div>
+    <label for="dueDate">Due Date</label>
+    <input type="date" id="dueDate" formControlName="dueDate" />
+  </div>
+
+  <!-- User ID disembunyikan dan diatur secara otomatis -->
+  <!-- Tidak perlu input untuk user -->
+
+  <div>
+    <label for="category">Category</label>
+    <select id="category" formControlName="category" required>
+      <option value="">Select a category</option>
+      <option *ngFor="let category of categories" [value]="category._id">
+        {{ category.name }}
+      </option>
+    </select>
+    <div
+      *ngIf="
+        todoForm.get('category')?.invalid && todoForm.get('category')?.touched
+      "
+    >
+      Category is required.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="todoForm.invalid">Submit</button>
+</form>

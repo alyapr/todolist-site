@@ -56,7 +56,6 @@ export class DashboardComponent implements OnInit {
     todo.isEditing = false;
   }
 
-
   // Fungsi untuk memuat todos dari API
   loadTodos(): void {
     this.todosService.getTodos().subscribe((data) => {
