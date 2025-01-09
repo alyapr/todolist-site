@@ -2,7 +2,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { TodosService } from '../services/todos.service'; // Impor TodosService
-import { Todo, TodoResponse } from '../models/todo.model'; // Pastikan path ini benar
+import { Todo } from '../models/todo.model'; // Pastikan path ini benar
 import { CommonModule } from '@angular/common'; // Impor CommonModule
 import { FormsModule } from '@angular/forms'; // Impor FormsModule
 
@@ -19,18 +19,25 @@ export class DashboardComponent implements OnInit {
   constructor(private todoService: TodosService) {}
 
   ngOnInit(): void {
-    // Memuat todos saat komponen diinisialisasi
-    this.todoService.getTodos().subscribe(
-      (response: TodoResponse) => {
-        this.todos = response.todos.map((todo) => ({
-          ...todo,
-          isEditing: false,
-        }));
-      },
-      (error) => {
-        console.error('Error fetching todos:', error);
-      }
-    );
+    // Mengambil userId dari localStorage
+    const userId = localStorage.getItem('userId');
+
+    if (userId) {
+      // Memuat todos berdasarkan userId
+      this.todoService.getTodosByUser(userId).subscribe(
+        (todos: Todo[]) => {
+          this.todos = todos.map((todo) => ({
+            ...todo,
+            isEditing: false,
+          }));
+        },
+        (error) => {
+          console.error('Error fetching todos:', error);
+        }
+      );
+    } else {
+      console.error('User not logged in');
+    }
   }
 
   toggleEdit(todo: Todo): void {
@@ -55,7 +62,6 @@ export class DashboardComponent implements OnInit {
     todo.isEditing = false;
   }
 
-  // Fungsi untuk menghapus todo
   deleteTodo(todo: Todo): void {
     if (confirm('Are you sure you want to delete this todo?')) {
       this.todoService.deleteTodo(todo._id).subscribe(

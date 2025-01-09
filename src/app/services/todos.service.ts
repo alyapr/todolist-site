@@ -1,7 +1,9 @@
+// todos.service.ts
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
-import { TodoResponse, Todo } from '../models/todo.model'; // Mengimpor interface Todo dan TodoResponse
+import { Todo } from '../models/todo.model'; // Mengimpor interface Todo
 import { UserService } from '../services/user.service';
 
 @Injectable({
@@ -13,37 +15,23 @@ export class TodosService {
   constructor(private http: HttpClient, private userService: UserService) {}
 
   // Fungsi untuk mendapatkan todos berdasarkan userId
-  getTodosByUser(): Observable<Todo[]> {
-    const userId = this.userService.getUserId(); // Ambil userId dari service atau localStorage
-    if (userId) {
-      // Menggunakan userId yang didapatkan dari UserService untuk filter todos
-      return this.http.get<Todo[]>(`${this.apiUrl}?userId=${userId}`).pipe(
-        catchError((error) => {
-          console.error('Error fetching todos:', error);
-          throw new Error('Failed to fetch todos');
-        })
-      );
-    } else {
-      throw new Error('User not logged in');
-    }
+  getTodosByUser(userId: string): Observable<Todo[]> {
+    return this.http.get<Todo[]>(`${this.apiUrl}?userId=${userId}`).pipe(
+      catchError((error) => {
+        console.error('Error fetching todos:', error);
+        throw new Error('Failed to fetch todos');
+      })
+    );
   }
 
   // Fungsi untuk membuat todo baru
   createTodo(newTodo: Todo): Observable<Todo> {
-    const userId = this.userService.getUserId();
-    const user = this.userService.getUser(); // Ambil data pengguna
-    
-    if (userId && user) {
-      newTodo.user = { username: user.username, email: user.email }; // Isi dengan data pengguna
+    const userId = this.userService.getUserId(); // Ambil userId dari service
+    if (userId) {
       return this.http.post<Todo>(this.apiUrl, { ...newTodo, userId });
     } else {
       throw new Error('User not logged in');
     }
-  }
-
-  // Fungsi untuk mendapatkan semua todos (untuk penggunaan lainnya, jika dibutuhkan)
-  getTodos(): Observable<TodoResponse> {
-    return this.http.get<TodoResponse>(this.apiUrl); // Pastikan API mengembalikan response dengan message dan todos
   }
 
   // Fungsi untuk memperbarui todo

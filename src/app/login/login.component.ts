@@ -46,15 +46,15 @@ export class LoginComponent {
       ]),
     });
   }
-
   onSubmit() {
     if (this.loginForm.valid) {
       const formData = this.loginForm.value;
       this.http.post('http://localhost:3000/users/login', formData).subscribe(
-        (response) => {
+        (response: any) => {
           console.log('Login successful:', response);
-          // Jika login sukses, simpan token atau lakukan navigasi
-          this.router.navigate(['/dashboard']);
+          // Simpan userId ke localStorage setelah login sukses
+          localStorage.setItem('userId', response.users._id); // Menyimpan userId
+          this.router.navigate(['/dashboard']); // Arahkan ke dashboard
         },
         (error) => {
           console.error('Error logging in:', error);
