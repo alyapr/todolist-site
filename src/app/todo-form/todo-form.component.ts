@@ -1,4 +1,3 @@
-// src/app/todo-form/todo-form.component.ts
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -11,6 +10,7 @@ import { UserService } from '../services/user.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Category } from '../models/category.model'; // Import model Category
+import { CategoryResponse } from '../models/category-response.model'; // Import model CategoryResponse
 
 @Component({
   selector: 'app-todo-form',
@@ -41,15 +41,15 @@ export class TodoFormComponent implements OnInit {
       description: [''],
       completed: [false],
       dueDate: [''],
-      user: [this.userId, Validators.required], // Mengatur nilai userId secara otomatis
-      category: ['', Validators.required], // Kategori tetap diperlukan
+      user: [this.userId], // Mengatur nilai userId secara otomatis
+      category: [''], // Kategori tetap diperlukan
     });
 
     // Mendapatkan kategori dari API
     this.categoryService.getCategories().subscribe(
-      (data) => {
+      (data: CategoryResponse) => {
         console.log('Categories received:', data); // Periksa data yang diterima
-        this.categories = data; // Menyimpan data kategori yang diterima
+        this.categories = data.categories; // Menyimpan array kategori
       },
       (error) => {
         console.error('Error fetching categories:', error); // Tangani error jika ada
@@ -58,12 +58,28 @@ export class TodoFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    // Mengecek apakah form valid
+    console.log('Form Validity:', this.todoForm.valid);
+    console.log('Form Value:', this.todoForm.value); // Menampilkan nilai form sebelum submit
+
     if (this.todoForm.valid) {
-      console.log(this.todoForm.value);
-      // Anda bisa mengirimkan data ke API di sini
-      // this.http.post('your-api-url/todos', this.todoForm.value).subscribe(response => {
-      //   console.log(response);
-      // });
+      // Ambil data form dan tambahkan userId secara eksplisit
+      const todoData = { ...this.todoForm.value, user: this.userId };
+
+      console.log('Form Data:', todoData); // Menampilkan nilai form yang sudah dilengkapi dengan userId
+
+      // Mengirim data ke API menggunakan HttpClient POST request
+      this.http.post('http://localhost:4200/todos', todoData).subscribe(
+        (response) => {
+          console.log('Todo berhasil disimpan:', response);
+          // Lakukan aksi setelah berhasil menyimpan, seperti mengarahkan ke halaman lain atau membersihkan form
+          this.todoForm.reset(); // Misalnya reset form
+        },
+        (error) => {
+          console.error('Error saat menyimpan todo:', error);
+          // Tampilkan error atau beri notifikasi
+        }
+      );
     }
   }
 }
