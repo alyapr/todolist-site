@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CategoryService } from '../services/category.service';
 import { UserService } from '../services/user.service';
 import { HttpClient } from '@angular/common/http';
@@ -69,7 +64,7 @@ export class TodoFormComponent implements OnInit {
       console.log('Form Data:', todoData); // Menampilkan nilai form yang sudah dilengkapi dengan userId
 
       // Mengirim data ke API menggunakan HttpClient POST request
-      this.http.post('http://localhost:4200/todos', todoData).subscribe(
+      this.http.post('http://localhost:3000/todos', todoData).subscribe(
         (response) => {
           console.log('Todo berhasil disimpan:', response);
           // Lakukan aksi setelah berhasil menyimpan, seperti mengarahkan ke halaman lain atau membersihkan form

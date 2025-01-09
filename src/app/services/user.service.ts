@@ -21,6 +21,12 @@ export class UserService {
   getUserId(): string | null {
     return this.userId;
   }
+    // Fungsi untuk mendapatkan data pengguna (username dan email) dari localStorage
+    getUser() {
+      const username = localStorage.getItem('username');
+      const email = localStorage.getItem('email');
+      return username && email ? { username, email } : null;
+    }
 
   // Fungsi untuk mengecek apakah pengguna sudah login
   isLoggedIn(): boolean {

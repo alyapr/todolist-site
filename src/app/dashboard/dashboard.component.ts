@@ -1,24 +1,27 @@
+// dashboard.component.ts
+
 import { Component, OnInit } from '@angular/core';
-import { TodosService } from '../services/todos.service'; // Import TodosService
-import { CommonModule } from '@angular/common'; // Import CommonModule
-import { Todo } from '../models/todo.model';
-import { FormsModule } from '@angular/forms';
+import { TodosService } from '../services/todos.service'; // Impor TodosService
+import { Todo, TodoResponse } from '../models/todo.model'; // Pastikan path ini benar
+import { CommonModule } from '@angular/common'; // Impor CommonModule
+import { FormsModule } from '@angular/forms'; // Impor FormsModule
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule], // Add the imports here
+  imports: [CommonModule, FormsModule], // Menambahkan imports
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
   todos: Todo[] = []; // Menyimpan daftar todos
 
-  constructor(private todosService: TodosService) {}
+  constructor(private todoService: TodosService) {}
 
   ngOnInit(): void {
-    this.todosService.getTodos().subscribe(
-      (response) => {
+    // Memuat todos saat komponen diinisialisasi
+    this.todoService.getTodos().subscribe(
+      (response: TodoResponse) => {
         this.todos = response.todos.map((todo) => ({
           ...todo,
           isEditing: false,
@@ -37,37 +40,27 @@ export class DashboardComponent implements OnInit {
   saveChanges(todo: Todo): void {
     const { user, category, isEditing, ...dataToSend } = todo;
 
-    this.todosService
-      .updateTodo(todo._id, {
-        ...dataToSend,
-      })
-      .subscribe(
-        (updatedTodo) => {
-          todo.isEditing = false;
-          Object.assign(todo, updatedTodo);
-        },
-        (error) => {
-          console.error('Error updating todo:', error);
-        }
-      );
+    this.todoService.updateTodo(todo._id, dataToSend).subscribe(
+      (updatedTodo) => {
+        todo.isEditing = false;
+        Object.assign(todo, updatedTodo); // Update todo dengan hasil dari server
+      },
+      (error) => {
+        console.error('Error updating todo:', error);
+      }
+    );
   }
 
   cancelEdit(todo: Todo): void {
     todo.isEditing = false;
   }
 
-  // Fungsi untuk memuat todos dari API
-  loadTodos(): void {
-    this.todosService.getTodos().subscribe((data) => {
-      this.todos = Array.isArray(data) ? data : []; // Pastikan data adalah array
-      console.log(this.todos); // Mengecek data todos yang diterima dari API
-    });
-  }
+  // Fungsi untuk menghapus todo
   deleteTodo(todo: Todo): void {
     if (confirm('Are you sure you want to delete this todo?')) {
-      this.todosService.deleteTodo(todo._id).subscribe(
+      this.todoService.deleteTodo(todo._id).subscribe(
         () => {
-          // Remove the deleted todo from the list
+          // Menghapus todo dari daftar setelah dihapus
           this.todos = this.todos.filter((t) => t._id !== todo._id);
         },
         (error) => {
