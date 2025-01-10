@@ -1,36 +1,81 @@
-<div class="dashboard">
-  <h1>Todos Dashboard</h1>
-  <div class="todo-container">
+<div class="dashboard p-6 bg-gray-100 min-h-screen font-poppins ">
+  <h1 class="text-3xl font-bold  text-center text-blue-600 mb-8">
+    Todos Dashboard
+  </h1>
+
+  <div
+    class="todo-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+  >
     <div
       *ngFor="let todo of todos"
-      class="todo-card"
-      [class.completed]="todo.completed"
+      class="todo-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
     >
-      <h3>{{ todo.title }}</h3>
-      <p>{{ todo.description }}</p>
-      <p>Completed: {{ todo.completed ? "Yes" : "No" }}</p>
-      <p>Due Date: {{ todo.dueDate | date }}</p>
-      <p>Category: {{ todo.category.name }}</p>
-      <div class="actions">
-        <button (click)="toggleEdit(todo)">Edit</button>
-        <button (click)="deleteTodo(todo)">Delete</button>
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ todo.title }}</h3>
+      <p class="text-gray-600 mb-4">{{ todo.description }}</p>
+      <p class="text-sm text-gray-500">Due Date: {{ todo.dueDate | date }}</p>
+
+      <div class="actions flex justify-between items-center mt-4">
+        <button
+          class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+          (click)="toggleEdit(todo)"
+        >
+          Edit
+        </button>
+        <button
+          class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-200"
+          (click)="deleteTodo(todo)"
+        >
+          Delete
+        </button>
       </div>
-      <div *ngIf="todo.isEditing" class="edit-section">
-        <input [(ngModel)]="todo.title" placeholder="Title" />
+
+      <div
+        *ngIf="todo.isEditing"
+        class="edit-section mt-4 p-4 bg-gray-50 rounded-lg shadow-inner"
+      >
+        <input
+          [(ngModel)]="todo.title"
+          class="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Title"
+        />
+
         <textarea
           [(ngModel)]="todo.description"
+          class="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder="Description"
         ></textarea>
-        <label>
-          <input type="checkbox" [(ngModel)]="todo.completed" /> Completed
-        </label>
-        <input [(ngModel)]="todo.dueDate" type="date" />
-        <button (click)="saveChanges(todo)">Save</button>
-        <button (click)="cancelEdit(todo)">Cancel</button>
+
+        <input
+          [(ngModel)]="todo.dueDate"
+          type="date"
+          class="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+
+        <div class="flex justify-between">
+          <button
+            class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200"
+            (click)="saveChanges(todo)"
+          >
+            Save
+          </button>
+          <button
+            class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-200"
+            (click)="cancelEdit(todo)"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Tombol Exit -->
-  <button (click)="logout()">Exit</button>
+  <div class="flex justify-center mt-8">
+    <button
+      class="bg-blue-500 text-white py-3 px-6 rounded-full hover:bg-blue-600 transition duration-200"
+      (click)="logout()"
+    >
+      Keluar
+    </button>
+  </div>
 </div>

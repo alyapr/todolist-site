@@ -34,7 +34,6 @@ export class TodoFormComponent implements OnInit {
     this.todoForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(255)]],
       description: [''],
-      completed: [false],
       dueDate: [''],
       user: [this.userId], // Mengatur nilai userId secara otomatis
       category: [''], // Kategori tetap diperlukan
