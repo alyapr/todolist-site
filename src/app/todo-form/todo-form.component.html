@@ -1,93 +1,102 @@
-<form
-  [formGroup]="todoForm"
-  (ngSubmit)="onSubmit()"
-  class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md"
->
-  <h2 class="text-3xl font-semibold text-center text-gray-700 mb-6">
-    Add Todo
-  </h2>
+<div class="bg-gray-100 min-h-screen">
+  <form
+    [formGroup]="todoForm"
+    (ngSubmit)="onSubmit()"
+    class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md"
+  >
+    <h2 class="text-3xl font-semibold text-center text-gray-700 mb-6 mt-20">
+      Tambah kegiatan
+    </h2>
 
-  <!-- Title Input -->
-  <div class="mb-4">
-    <label for="title" class="block text-gray-700 font-semibold mb-2"
-      >Title</label
-    >
-    <input
-      id="title"
-      formControlName="title"
-      type="text"
-      required
-      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-    />
-    <div
-      *ngIf="todoForm.get('title')?.invalid && todoForm.get('title')?.touched"
-      class="text-red-500 text-sm mt-1"
-    >
-      Title is required.
+    <!-- Title Input -->
+    <div class="mb-4">
+      <label for="title" class="block text-gray-700 font-semibold mb-2"
+        >Judul</label
+      >
+      <input
+        id="title"
+        formControlName="title"
+        type="text"
+        required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <div
+        *ngIf="todoForm.get('title')?.invalid && todoForm.get('title')?.touched"
+        class="text-red-500 text-sm mt-1"
+      >
+        Judul diperlukan.
+      </div>
     </div>
-  </div>
 
-  <!-- Description Input -->
-  <div class="mb-4">
-    <label for="description" class="block text-gray-700 font-semibold mb-2"
-      >Description</label
-    >
-    <textarea
-      id="description"
-      formControlName="description"
-      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-      rows="4"
-      placeholder="Add a description"
-    ></textarea>
-  </div>
-
-  <!-- Due Date Input -->
-  <div class="mb-4">
-    <label for="dueDate" class="block text-gray-700 font-semibold mb-2"
-      >Due Date</label
-    >
-    <input
-      type="date"
-      id="dueDate"
-      formControlName="dueDate"
-      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-    />
-  </div>
-
-  <!-- Category Select -->
-  <div class="mb-4">
-    <label for="category" class="block text-gray-700 font-semibold mb-2"
-      >Category</label
-    >
-    <select
-      id="category"
-      formControlName="category"
-      required
-      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-    >
-      <option value="">Select a category</option>
-      <option *ngFor="let category of categories" [value]="category._id">
-        {{ category.name }}
-      </option>
-    </select>
-    <div
-      *ngIf="
-        todoForm.get('category')?.invalid && todoForm.get('category')?.touched
-      "
-      class="text-red-500 text-sm mt-1"
-    >
-      Category is required.
+    <!-- Description Input -->
+    <div class="mb-4">
+      <label for="description" class="block text-gray-700 font-semibold mb-2"
+        >Deskripsi</label
+      >
+      <textarea
+        id="description"
+        formControlName="description"
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+        rows="4"
+        placeholder="Tambahkan deskripsi"
+      ></textarea>
     </div>
-  </div>
 
-  <!-- Submit Button -->
-  <div class="flex justify-center mt-6">
-    <button
-      type="submit"
-      [disabled]="todoForm.invalid"
-      class="bg-blue-500 text-white py-3 px-8 rounded-lg hover:bg-blue-600 transition duration-200 disabled:opacity-50"
-    >
-      Submit
-    </button>
-  </div>
-</form>
+    <div class="mb-4">
+      <label for="dueDate" class="block text-gray-700 font-semibold mb-2"
+        >Tanggal tenggat</label
+      >
+      <input
+        type="date"
+        id="dueDate"
+        formControlName="dueDate"
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="category" class="block text-gray-700 font-semibold mb-2"
+        >Kategori</label
+      >
+      <select
+        id="category"
+        formControlName="category"
+        required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
+        <option value="">Pilih kategori</option>
+        <option *ngFor="let category of categories" [value]="category._id">
+          {{ category.name }}
+        </option>
+      </select>
+      <div
+        *ngIf="
+          todoForm.get('category')?.invalid && todoForm.get('category')?.touched
+        "
+        class="text-red-500 text-sm mt-1"
+      >
+        Kategori diperlukan.
+      </div>
+    </div>
+
+    <div class="flex mx-auto justify-center">
+      <div class="flex justify-center mt-6">
+        <button
+          type="submit"
+          [disabled]="todoForm.invalid"
+          class="bg-blue-500 text-white py-3 px-8 rounded-lg hover:bg-blue-600 transition duration-200 disabled:opacity-50"
+        >
+          Tambah
+        </button>
+      </div>
+      <div class="flex justify-center mt-6 ml-4">
+        <a
+          href="/dashboard"
+          class="bg-gray-600 text-white py-3 px-8 rounded-lg hover:bg-red-600 transition duration-200 disabled:opacity-50"
+        >
+          Batal
+        </a>
+      </div>
+    </div>
+  </form>
+</div>

@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 export class NotFoundComponent {
   constructor(private router: Router) {}
 
-  // Fungsi untuk mengarahkan kembali ke halaman home atau dashboard
   goHome(): void {
     this.router.navigate(['/']);
   }

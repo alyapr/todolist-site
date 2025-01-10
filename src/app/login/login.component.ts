@@ -26,9 +26,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService // Gunakan AuthService
+    private authService: AuthService
   ) {
-    // Membuat form grup dengan validasi
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
@@ -42,21 +41,17 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
 
-      // Panggil AuthService untuk login
       this.authService.login(email, password).subscribe(
         (response: any) => {
-          const { userId, username } = response; // Ambil username dari respons
-  
-          // Simpan userId dan username setelah login berhasil
+          const { userId, username } = response;
+
           this.authService.saveUserId(userId, username);
-  
+
           console.log('Login successful');
-          // Navigasi ke halaman dashboard
           this.router.navigate(['/dashboard']);
         },
         (error) => {
           console.error('Error logging in:', error);
-          // Tampilkan pesan kesalahan di UI jika diperlukan
           this.errorMessage = 'Login failed. Please check your credentials.';
         }
       );

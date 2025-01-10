@@ -12,11 +12,10 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    // Jika user sudah login, arahkan mereka ke dashboard
     if (this.userService.isLoggedIn()) {
       this.router.navigate(['/dashboard']);
-      return false;  // Tidak mengizinkan akses ke halaman login/register
+      return false;  
     }
-    return true;  // Mengizinkan akses ke halaman login/register
+    return true;  
   }
 }

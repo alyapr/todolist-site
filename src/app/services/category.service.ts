@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Category } from '../models/category.model'; // Import model Category
-import { CategoryResponse } from '../models/category-response.model'; // Import model CategoryResponse
+import { CategoryResponse } from '../models/category-response.model'; 
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  private apiUrl = 'http://localhost:3000/categories'; // Ganti dengan URL API Anda
+  private apiUrl = 'http://localhost:3000/categories'; 
 
   constructor(private http: HttpClient) {}
 
-  // Menggunakan CategoryResponse untuk mendefinisikan tipe data yang diterima
+ 
   getCategories(): Observable<CategoryResponse> {
     return this.http.get<CategoryResponse>(this.apiUrl);
   }

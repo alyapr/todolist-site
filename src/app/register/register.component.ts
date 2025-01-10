@@ -41,8 +41,7 @@ export class RegisterComponent {
       this.http.post('http://localhost:3000/users/signup', formData).subscribe(
         (response) => {
           console.log('User registered successfully:', response);
-          // Setelah registrasi berhasil, arahkan ke halaman login atau dashboard
-          this.router.navigate(['/login']); // Atau bisa ke '/dashboard' jika langsung login setelah registrasi
+          this.router.navigate(['/login']); 
         },
         (error) => {
           console.error('Error registering user:', error);

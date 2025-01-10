@@ -5,7 +5,7 @@ export interface Todo {
   dueDate: Date;
   user: { username: string; email: string };
   category: { name: string };
-  isEditing?: boolean; // Properti untuk mode edit
+  isEditing?: boolean;
 }
 
 export interface TodoResponse {

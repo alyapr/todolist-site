@@ -69,7 +69,7 @@ export class DashboardComponent implements OnInit {
     this.todosService.getTodos().subscribe(
       (response) => {
         this.todos = response.todos;
-        this.filteredTodos = [...this.todos]; // Menyinkronkan filteredTodos dengan todos
+        this.filteredTodos = [...this.todos];
       },
       (error) => {
         console.error('Error fetching todos:', error);
@@ -82,6 +82,7 @@ export class DashboardComponent implements OnInit {
       this.todosService.deleteTodo(todo._id).subscribe(
         () => {
           this.todos = this.todos.filter((t) => t._id !== todo._id);
+          this.cdr.detectChanges();
         },
         (error) => {
           console.error('Error deleting todo:', error);
@@ -92,12 +93,10 @@ export class DashboardComponent implements OnInit {
 
   filterTodos(): void {
     if (this.searchTerm.trim()) {
-      // Filter todos berdasarkan judul atau deskripsi
       this.filteredTodos = this.todos.filter((todo) =>
         todo.title.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     } else {
-      // Reset filteredTodos ke semua todos jika search term kosong
       this.filteredTodos = [...this.todos];
     }
   }
@@ -106,9 +105,8 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/todo-form']);
   }
 
-  // Method to log out and clear userId from LocalStorage
   logout(): void {
-    this.userService.logout(); // Call logout from UserService
-    this.router.navigate(['/login']); // Redirect to login page
+    this.userService.logout();
+    this.router.navigate(['/login']);
   }
 }

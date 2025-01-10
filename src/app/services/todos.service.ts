@@ -22,23 +22,20 @@ export interface Todo {
 }
 export interface TodosResponse {
   message: string;
-  todos: Todo[]; // todos adalah array yang berisi objek Todo
+  todos: Todo[]; 
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodosService {
-  private apiUrl = 'http://localhost:3000/todos'; // Endpoint API Node.js
+  private apiUrl = 'http://localhost:3000/todos'; 
 
   constructor(private http: HttpClient, private userService: UserService) {}
 
-  // getTodos(): Observable<Todo[]> {
-  //   const headers = { 'Cache-Control': 'no-cache' };
-  //   return this.http.get<Todo[]>(this.apiUrl, { headers });
-  // }
+ 
   getTodos(): Observable<TodoResponse> {
-    const userId = this.userService.getUserId(); // Mendapatkan userId dari service
+    const userId = this.userService.getUserId();
     return this.http.get<TodoResponse>(`${this.apiUrl}?userId=${userId}`);
   }
 

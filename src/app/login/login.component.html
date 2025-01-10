@@ -5,7 +5,6 @@
     <h2 class="text-3xl font-bold text-center text-blue-600 mb-6">Login</h2>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <!-- Email Field -->
       <div class="mb-4">
         <label for="email" class="block text-gray-700">Email</label>
         <input
@@ -22,13 +21,12 @@
           "
           class="text-red-500 mt-2"
         >
-          <span>Email is required and must be valid</span>
+          <span>Dibutuhkan email yang sah</span>
         </div>
       </div>
 
-      <!-- Password Field -->
       <div class="mb-6">
-        <label for="password" class="block text-gray-700">Password</label>
+        <label for="password" class="block text-gray-700">Kata sandi</label>
         <input
           type="password"
           id="password"
@@ -44,7 +42,7 @@
           class="text-red-500 mt-2"
         >
           <span
-            >Password is required and must be at least 6 characters long</span
+            >Kata sandi setidaknya 6 huruf.</span
           >
         </div>
       </div>
@@ -55,11 +53,10 @@
         [disabled]="loginForm.invalid"
         class="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-400"
       >
-        Login
+        Masuk
       </button>
     </form>
 
-    <!-- Error Message -->
     <p *ngIf="errorMessage" class="error text-red-500 text-center mt-4">
       {{ errorMessage }}
     </p>

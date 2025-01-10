@@ -2,17 +2,16 @@
   class="register-container bg-gray-100 min-h-screen flex items-center justify-center"
 >
   <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
-    <h2 class="text-3xl font-bold text-center text-blue-600 mb-6">Register</h2>
+    <h2 class="text-3xl font-bold text-center text-blue-600 mb-6">Daftar</h2>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <!-- Username Field -->
       <div class="mb-4">
-        <label for="username" class="block text-gray-700">Username</label>
+        <label for="username" class="block text-gray-700">Nama lengkap</label>
         <input
           id="username"
           formControlName="username"
           type="text"
-          placeholder="Enter your username"
+          placeholder="Masukkan nama lengkap "
           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <div
@@ -22,21 +21,17 @@
           "
           class="text-red-500 mt-2"
         >
-          <span
-            >Username is required and should be at least 3 characters
-            long.</span
-          >
+          <span>Nama setidaknya 3 huruf.</span>
         </div>
       </div>
 
-      <!-- Email Field -->
       <div class="mb-4">
         <label for="email" class="block text-gray-700">Email</label>
         <input
           id="email"
           formControlName="email"
           type="email"
-          placeholder="Enter your email"
+          placeholder="Masukkan email anda "
           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <div
@@ -46,18 +41,17 @@
           "
           class="text-red-500 mt-2"
         >
-          <span>Please enter a valid email address.</span>
+          <span>Silahkan masukkan email yang sah.</span>
         </div>
       </div>
 
-      <!-- Password Field -->
       <div class="mb-6">
-        <label for="password" class="block text-gray-700">Password</label>
+        <label for="password" class="block text-gray-700">Kata sandi</label>
         <input
           id="password"
           formControlName="password"
           type="password"
-          placeholder="Enter your password"
+          placeholder="Masukkan kata sandi anda"
           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <div
@@ -68,19 +62,17 @@
           class="text-red-500 mt-2"
         >
           <span
-            >Password is required and should be at least 6 characters
-            long.</span
+            >Kata sandi setidaknya 6 huruf.</span
           >
         </div>
       </div>
 
-      <!-- Submit Button -->
       <button
         type="submit"
         [disabled]="registerForm.invalid"
         class="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-400"
       >
-        Register
+        Daftar
       </button>
     </form>
     <p class="mt-4 text-center text-gray-600">
