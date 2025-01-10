@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TodosService } from '../services/todos.service';
 import { CommonModule } from '@angular/common';
 import { Todo } from '../models/todo.model';
@@ -25,7 +25,8 @@ export class DashboardComponent implements OnInit {
     private todosService: TodosService,
     private userService: UserService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -82,7 +83,7 @@ export class DashboardComponent implements OnInit {
       this.todosService.deleteTodo(todo._id).subscribe(
         () => {
           this.todos = this.todos.filter((t) => t._id !== todo._id);
-          this.cdr.detectChanges();
+          window.location.reload();
         },
         (error) => {
           console.error('Error deleting todo:', error);
