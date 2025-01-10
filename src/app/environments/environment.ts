@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/users', 
+  apiUrl: 'https://apimongo-production-b963.up.railway.app',
 };

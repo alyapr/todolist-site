@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +19,8 @@ import { CommonModule } from '@angular/common';
   imports: [ReactiveFormsModule, CommonModule],
 })
 export class RegisterComponent {
+  private apiUrl = environment.apiUrl;
+
   registerForm!: FormGroup;
 
   constructor(
@@ -38,10 +41,10 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.valid) {
       const formData = this.registerForm.value;
-      this.http.post('http://localhost:3000/users/signup', formData).subscribe(
+      this.http.post(`${this.apiUrl}/users/signup`, formData).subscribe(
         (response) => {
           console.log('User registered successfully:', response);
-          this.router.navigate(['/login']); 
+          this.router.navigate(['/login']);
         },
         (error) => {
           console.error('Error registering user:', error);

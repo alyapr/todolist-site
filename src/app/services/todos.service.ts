@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { TodoResponse } from '../models/todo.model';
 import { UserService } from './user.service';
+import { environment } from '../environments/environment';
 export interface User {
   username: string;
   email: string;
@@ -22,27 +23,26 @@ export interface Todo {
 }
 export interface TodosResponse {
   message: string;
-  todos: Todo[]; 
+  todos: Todo[];
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodosService {
-  private apiUrl = 'http://localhost:3000/todos'; 
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private userService: UserService) {}
 
- 
   getTodos(): Observable<TodoResponse> {
     const userId = this.userService.getUserId();
-    return this.http.get<TodoResponse>(`${this.apiUrl}?userId=${userId}`);
+    return this.http.get<TodoResponse>(`${this.apiUrl}/todos?userId=${userId}`);
   }
 
   updateTodo(id: string, updatedData: Partial<Todo>): Observable<Todo> {
-    return this.http.put<Todo>(`${this.apiUrl}/${id}`, updatedData);
+    return this.http.put<Todo>(`${this.apiUrl}/todos/${id}`, updatedData);
   }
   deleteTodo(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/todos/${id}`);
   }
 }
