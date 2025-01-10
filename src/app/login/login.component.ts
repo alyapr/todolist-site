@@ -20,6 +20,7 @@ import { AuthService } from '../services/auth.service';
   imports: [ReactiveFormsModule, CommonModule, FormsModule],
 })
 export class LoginComponent {
+  errorMessage: string = '';
   loginForm!: FormGroup;
 
   constructor(
