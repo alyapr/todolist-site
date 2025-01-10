@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Category } from '../models/category.model'; // Import model Category
 import { CategoryResponse } from '../models/category-response.model'; // Import model CategoryResponse
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-todo-form',
@@ -23,7 +24,8 @@ export class TodoFormComponent implements OnInit {
     private fb: FormBuilder,
     private categoryService: CategoryService,
     private http: HttpClient,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -68,6 +70,7 @@ export class TodoFormComponent implements OnInit {
           console.log('Todo berhasil disimpan:', response);
           // Lakukan aksi setelah berhasil menyimpan, seperti mengarahkan ke halaman lain atau membersihkan form
           this.todoForm.reset(); // Misalnya reset form
+          this.router.navigate(['/dashboard']);
         },
         (error) => {
           console.error('Error saat menyimpan todo:', error);

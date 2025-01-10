@@ -45,18 +45,19 @@ export class LoginComponent {
       // Panggil AuthService untuk login
       this.authService.login(email, password).subscribe(
         (response: any) => {
-          const { userId } = response;
-
-          // Simpan userId setelah login berhasil
-          this.authService.saveUserId(userId);
+          const { userId, username } = response; // Ambil username dari respons
+  
+          // Simpan userId dan username setelah login berhasil
+          this.authService.saveUserId(userId, username);
+  
           console.log('Login successful');
-
-          // Navigasi ke halaman dashboard atau profile
+          // Navigasi ke halaman dashboard
           this.router.navigate(['/dashboard']);
         },
         (error) => {
           console.error('Error logging in:', error);
-          // Anda bisa menambahkan penanganan error seperti menampilkan pesan kesalahan di UI
+          // Tampilkan pesan kesalahan di UI jika diperlukan
+          this.errorMessage = 'Login failed. Please check your credentials.';
         }
       );
     }

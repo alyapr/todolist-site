@@ -1,13 +1,36 @@
-<div class="dashboard p-6 bg-gray-100 min-h-screen font-poppins ">
-  <h1 class="text-3xl font-bold  text-center text-blue-600 mb-8">
+<div class="dashboard p-6 bg-gray-100 min-h-screen font-poppins">
+  <h1 class="text-3xl font-bold text-center text-blue-600 mb-8">
     Todos Dashboard
   </h1>
+  <div class="flex justify-center mb-6">
+    <!-- Search Field -->
+    <input
+      type="text"
+      class="w-1/2 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+      placeholder="Search Todos..."
+      [(ngModel)]="searchTerm"
+      (input)="filterTodos()"
+    />
+  </div>
+  <div class="text-right">
+    <p class="text-gray-700 font-semibold">Selamat datang, {{ username }}</p>
+  </div>
+
+  <!-- Tombol Tambah Todos -->
+  <div class="flex justify-center mb-6">
+    <button
+      class="bg-green-500 text-white py-3 px-6 rounded-full hover:bg-green-600 transition duration-200"
+      (click)="addTodo()"
+    >
+      Tambah Todos
+    </button>
+  </div>
 
   <div
     class="todo-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
   >
     <div
-      *ngFor="let todo of todos"
+      *ngFor="let todo of filteredTodos"
       class="todo-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
     >
       <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ todo.title }}</h3>
@@ -66,8 +89,8 @@
           </button>
         </div>
       </div>
-    </div>
-  </div>
+    </div> <!-- <-- Tutup div yang hilang di sini -->
+  </div> <!-- Tutup div yang sebelumnya ada di sini -->
 
   <!-- Tombol Exit -->
   <div class="flex justify-center mt-8">

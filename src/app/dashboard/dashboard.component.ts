@@ -5,6 +5,7 @@ import { Todo } from '../models/todo.model';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,12 +16,16 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
   todos: Todo[] = [];
+  filteredTodos: Todo[] = [];
   userId: string | null = null;
+  username: string | null = '';
+  searchTerm: string = '';
 
   constructor(
     private todosService: TodosService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +34,9 @@ export class DashboardComponent implements OnInit {
     } else {
       this.userId = this.userService.getUserId();
       this.loadTodos();
+      this.authService.username$.subscribe((name) => {
+        this.username = name;
+      });
     }
   }
 
@@ -61,6 +69,7 @@ export class DashboardComponent implements OnInit {
     this.todosService.getTodos().subscribe(
       (response) => {
         this.todos = response.todos;
+        this.filteredTodos = [...this.todos]; // Menyinkronkan filteredTodos dengan todos
       },
       (error) => {
         console.error('Error fetching todos:', error);
@@ -79,6 +88,22 @@ export class DashboardComponent implements OnInit {
         }
       );
     }
+  }
+
+  filterTodos(): void {
+    if (this.searchTerm.trim()) {
+      // Filter todos berdasarkan judul atau deskripsi
+      this.filteredTodos = this.todos.filter((todo) =>
+        todo.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    } else {
+      // Reset filteredTodos ke semua todos jika search term kosong
+      this.filteredTodos = [...this.todos];
+    }
+  }
+
+  addTodo(): void {
+    this.router.navigate(['/todo-form']);
   }
 
   // Method to log out and clear userId from LocalStorage
