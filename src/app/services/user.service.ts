@@ -1,25 +1,30 @@
-// services/user.service.ts
-
 import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private userIdKey = 'userId'; // Key untuk menyimpan userId
+  private userIdKey = 'user_id';
 
-  // Fungsi untuk menyimpan userId ke localStorage
+  constructor() {}
+
+  // Menyimpan userId di localStorage
   saveUserId(userId: string): void {
     localStorage.setItem(this.userIdKey, userId);
   }
 
-  // Fungsi untuk mendapatkan userId dari localStorage
+  // Mengambil userId dari localStorage
   getUserId(): string | null {
     return localStorage.getItem(this.userIdKey);
   }
 
-  // Fungsi untuk menghapus userId dari localStorage
-  clearUserId(): void {
-    localStorage.removeItem(this.userIdKey);
+  // Menghapus userId dari localStorage saat logout
+  logout(): void {
+    localStorage.removeItem(this.userIdKey); // Menghapus userId
+  }
+
+  // Mengecek apakah user sudah login (apakah ada userId di localStorage)
+  isLoggedIn(): boolean {
+    return this.getUserId() !== null;
   }
 }
