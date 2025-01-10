@@ -1,14 +1,15 @@
-// import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   FormGroup,
   FormBuilder,
   FormControl,
   Validators,
+  ReactiveFormsModule,
 } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -19,8 +20,11 @@ import { HttpClient } from '@angular/common/http';
 export class RegisterComponent {
   registerForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
-    // Membuat form grup dengan validasi
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) {
     this.registerForm = new FormGroup({
       username: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -37,6 +41,8 @@ export class RegisterComponent {
       this.http.post('http://localhost:3000/users/signup', formData).subscribe(
         (response) => {
           console.log('User registered successfully:', response);
+          // Setelah registrasi berhasil, arahkan ke halaman login atau dashboard
+          this.router.navigate(['/login']); // Atau bisa ke '/dashboard' jika langsung login setelah registrasi
         },
         (error) => {
           console.error('Error registering user:', error);

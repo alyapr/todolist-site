@@ -4,26 +4,27 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UserService {
-  private userId: string | null = null;
+  private userIdKey = 'user_id';
 
-  constructor() {
-    // Jika Anda menyimpan userId di localStorage saat login
-    this.userId = localStorage.getItem('userId');
+  constructor() {}
+
+  // Menyimpan userId di localStorage
+  saveUserId(userId: string): void {
+    localStorage.setItem(this.userIdKey, userId);
   }
 
-  // Fungsi untuk menyimpan userId
-  setUserId(userId: string) {
-    this.userId = userId;
-    localStorage.setItem('userId', userId); // Menyimpan ke localStorage
-  }
-
-  // Fungsi untuk mendapatkan userId
+  // Mengambil userId dari localStorage
   getUserId(): string | null {
-    return this.userId;
+    return localStorage.getItem(this.userIdKey);
   }
 
-  // Fungsi untuk mengecek apakah pengguna sudah login
+  // Menghapus userId dari localStorage saat logout
+  logout(): void {
+    localStorage.removeItem(this.userIdKey); // Menghapus userId
+  }
+
+  // Mengecek apakah user sudah login (apakah ada userId di localStorage)
   isLoggedIn(): boolean {
-    return this.userId !== null;
+    return this.getUserId() !== null;
   }
 }

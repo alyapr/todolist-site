@@ -1,7 +1,11 @@
 <div class="dashboard">
   <h1>Todos Dashboard</h1>
   <div class="todo-container">
-    <div *ngFor="let todo of todos" class="todo-card" [class.completed]="todo.completed">
+    <div
+      *ngFor="let todo of todos"
+      class="todo-card"
+      [class.completed]="todo.completed"
+    >
       <h3>{{ todo.title }}</h3>
       <p>{{ todo.description }}</p>
       <p>Completed: {{ todo.completed ? "Yes" : "No" }}</p>
@@ -13,7 +17,10 @@
       </div>
       <div *ngIf="todo.isEditing" class="edit-section">
         <input [(ngModel)]="todo.title" placeholder="Title" />
-        <textarea [(ngModel)]="todo.description" placeholder="Description"></textarea>
+        <textarea
+          [(ngModel)]="todo.description"
+          placeholder="Description"
+        ></textarea>
         <label>
           <input type="checkbox" [(ngModel)]="todo.completed" /> Completed
         </label>
@@ -23,4 +30,7 @@
       </div>
     </div>
   </div>
+
+  <!-- Tombol Exit -->
+  <button (click)="logout()">Exit</button>
 </div>

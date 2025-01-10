@@ -1,41 +1,31 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-login',
-//   standalone: true,
-//   imports: [],
-//   templateUrl: './login.component.html',
-//   styleUrl: './login.component.css'
-// })
-// export class LoginComponent {
-
-// }
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   FormGroup,
   FormBuilder,
   FormControl,
   Validators,
+  ReactiveFormsModule,
+  FormsModule,
 } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms'; // Tambahkan dependensi ini
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [ReactiveFormsModule, CommonModule], // Import ReactiveFormsModule untuk form
+  imports: [ReactiveFormsModule, CommonModule, FormsModule],
 })
 export class LoginComponent {
   loginForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private authService: AuthService // Gunakan AuthService
   ) {
     // Membuat form grup dengan validasi
     this.loginForm = new FormGroup({
@@ -47,17 +37,25 @@ export class LoginComponent {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.loginForm.valid) {
-      const formData = this.loginForm.value;
-      this.http.post('http://localhost:3000/users/login', formData).subscribe(
-        (response) => {
-          console.log('Login successful:', response);
-          // Jika login sukses, simpan token atau lakukan navigasi
+      const { email, password } = this.loginForm.value;
+
+      // Panggil AuthService untuk login
+      this.authService.login(email, password).subscribe(
+        (response: any) => {
+          const { userId } = response;
+
+          // Simpan userId setelah login berhasil
+          this.authService.saveUserId(userId);
+          console.log('Login successful');
+
+          // Navigasi ke halaman dashboard atau profile
           this.router.navigate(['/dashboard']);
         },
         (error) => {
           console.error('Error logging in:', error);
+          // Anda bisa menambahkan penanganan error seperti menampilkan pesan kesalahan di UI
         }
       );
     }

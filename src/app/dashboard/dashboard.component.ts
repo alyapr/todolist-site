@@ -1,42 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { TodosService } from '../services/todos.service'; // Import TodosService
-import { CommonModule } from '@angular/common'; // Import CommonModule
+import { TodosService } from '../services/todos.service';
+import { CommonModule } from '@angular/common';
 import { Todo } from '../models/todo.model';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule], // Add the imports here
+  imports: [CommonModule, FormsModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  todos: Todo[] = []; // Menyimpan daftar todos
+  todos: Todo[] = [];
+  userId: string | null = null;
 
-  constructor(private todosService: TodosService) {}
+  constructor(
+    private todosService: TodosService,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.todosService.getTodos().subscribe(
-      (response) => {
-        this.todos = response.todos.map((todo) => ({
-          ...todo,
-          isEditing: false,
-        }));
-      },
-      (error) => {
-        console.error('Error fetching todos:', error);
-      }
-    );
+    if (!this.userService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+    } else {
+      this.userId = this.userService.getUserId();
+      this.loadTodos();
+    }
   }
 
   toggleEdit(todo: Todo): void {
-    todo.isEditing = !todo.isEditing; // Mengubah status edit
+    todo.isEditing = !todo.isEditing;
   }
 
   saveChanges(todo: Todo): void {
     const { user, category, isEditing, ...dataToSend } = todo;
-
     this.todosService
       .updateTodo(todo._id, {
         ...dataToSend,
@@ -56,18 +57,21 @@ export class DashboardComponent implements OnInit {
     todo.isEditing = false;
   }
 
-  // Fungsi untuk memuat todos dari API
   loadTodos(): void {
-    this.todosService.getTodos().subscribe((data) => {
-      this.todos = Array.isArray(data) ? data : []; // Pastikan data adalah array
-      console.log(this.todos); // Mengecek data todos yang diterima dari API
-    });
+    this.todosService.getTodos().subscribe(
+      (response) => {
+        this.todos = response.todos;
+      },
+      (error) => {
+        console.error('Error fetching todos:', error);
+      }
+    );
   }
+
   deleteTodo(todo: Todo): void {
     if (confirm('Are you sure you want to delete this todo?')) {
       this.todosService.deleteTodo(todo._id).subscribe(
         () => {
-          // Remove the deleted todo from the list
           this.todos = this.todos.filter((t) => t._id !== todo._id);
         },
         (error) => {
@@ -75,5 +79,11 @@ export class DashboardComponent implements OnInit {
         }
       );
     }
+  }
+
+  // Method to log out and clear userId from LocalStorage
+  logout(): void {
+    this.userService.logout(); // Call logout from UserService
+    this.router.navigate(['/login']); // Redirect to login page
   }
 }
